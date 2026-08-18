@@ -13,9 +13,9 @@ conectarDB();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", function(req, res) {
-    res.send("API Directorio de Contactos funcionando correctamente");
-});
+// app.get("/", function(req, res) {
+//     res.send("API Directorio de Contactos funcionando correctamente");
+// });
 
 app.listen(puerto, function() {
     console.log("Servidor iniciado en http://localhost:" + puerto);
