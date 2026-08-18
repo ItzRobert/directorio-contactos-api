@@ -42,6 +42,9 @@ const contactoSchema = new mongoose.Schema({
         trim: true,
         maxlength: 500
     }
+
+}, {
+    optimisticConcurrency: true
 });
 
 module.exports = mongoose.model("Contacto", contactoSchema);
