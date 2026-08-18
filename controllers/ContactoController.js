@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Contactos = require('../models/Contacto.js');
+const mongoose = require("mongoose")
+const Contactos = require("../models/Contacto.js");
 
 
 
@@ -50,11 +50,10 @@ exports.put = async (req,res) =>{
 }
 exports.delete = async (req,res) => {
    try{
-    if(!req.body || Object.keys(req.body).length === 0){res.status(400).json({message : "El cuerpo del nuevo contacto no puede estar vacio"}); return;}
     var contactoEliminarId = req.params._id;
     var contactoEliminar = req.body;
     var contactoEliminado = await Contactos.findByIdAndDelete(contactoEliminarId, contactoEliminar);
-
+    res.status(200).json(contactoEliminado);
 }
 catch(error){res.status(404)}
 }
