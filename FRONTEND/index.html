@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Directorio · Fichero de contactos</title>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- =====================================================
+         ENCABEZADO
+         ===================================================== -->
+
+    <header class="header">
+
+      <div>
+        <span class="header-tag">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <rect x="3" y="7" width="18" height="13" rx="1.5"/>
+            <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+
+          Fichero personal
+        </span>
+
+        <h1>Directorio de contactos</h1>
+
+        <p>
+          Guarda, busca y organiza a las personas que te importan.
+          Los datos se administran desde la API del proyecto.
+        </p>
+      </div>
+
+      <div class="header-count">
+        <strong id="countNumber">0</strong>
+        contactos
+      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTROLES
+         ===================================================== -->
+
+    <div class="controls">
+
+      <div class="search-wrap">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Buscar por nombre, empresa, teléfono o correo..."
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <button
+        class="btn btn-ghost"
+        id="favFilterBtn"
+        type="button"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M12 17.3 6.2 20.5l1.1-6.5L2.5 9.3l6.5-.9L12 2.5l3 5.9 6.5.9-4.8 4.7 1.1 6.5z"/>
+        </svg>
+
+        Favoritos
+
+      </button>
+
+
+      <button
+        class="btn btn-primary"
+        id="newContactBtn"
+        type="button"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+
+        Nuevo contacto
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         ÍNDICE ALFABÉTICO
+         ===================================================== -->
+
+    <nav
+      class="index-rail"
+      id="indexRail"
+      aria-label="Índice alfabético"
+    ></nav>
+
+
+    <!-- =====================================================
+         LISTADO DE CONTACTOS
+         ===================================================== -->
+
+    <main
+      class="content"
+      id="content"
+    ></main>
+
+  </div>
+
+
+  <!-- =======================================================
+       MODAL
+       ======================================================= -->
+
+  <div
+    class="overlay"
+    id="overlay"
+    aria-hidden="true"
+  >
+
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+
+      <h2 id="modalTitle">
+        Nuevo contacto
+      </h2>
+
+      <p
+        class="modal-sub"
+        id="modalSub"
+      >
+        Completa los datos de la persona que quieres guardar.
+      </p>
+
+
+      <form
+        id="contactForm"
+        novalidate
+      >
+
+        <!-- ID del contacto -->
+        <input
+          type="hidden"
+          id="contactId"
+        >
+
+
+        <!-- Nombre -->
+
+        <div
+          class="field"
+          id="fieldName"
+        >
+
+          <label for="inputName">
+            Nombre completo
+            <span class="req">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="inputName"
+            placeholder="Ej. Ana María Peña"
+            maxlength="100"
+            autocomplete="name"
+          >
+
+          <div class="field-error">
+            Escribe un nombre para poder guardar el contacto.
+          </div>
+
+        </div>
+
+
+        <!-- Teléfono -->
+
+        <div
+          class="field"
+          id="fieldPhone"
+        >
+
+          <label for="inputPhone">
+            Teléfono
+            <span class="req">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="inputPhone"
+            placeholder="Ej. 809-555-0142"
+            inputmode="tel"
+            maxlength="20"
+            autocomplete="tel"
+          >
+
+          <div class="field-error">
+            Agrega al menos un número de teléfono.
+          </div>
+
+        </div>
+
+
+        <!-- Correo -->
+
+        <div
+          class="field"
+          id="fieldEmail"
+        >
+
+          <label for="inputEmail">
+            Correo electrónico
+          </label>
+
+          <input
+            type="email"
+            id="inputEmail"
+            placeholder="Ej. ana.pena@correo.com"
+            maxlength="150"
+            autocomplete="email"
+          >
+
+          <div class="field-error">
+            Ese correo no tiene un formato válido.
+          </div>
+
+        </div>
+
+
+        <!-- Empresa -->
+
+        <div class="field">
+
+          <label for="inputOrg">
+            Empresa / rol
+          </label>
+
+          <input
+            type="text"
+            id="inputOrg"
+            placeholder="Ej. Estudio Peña & Asoc. — Diseñadora"
+            maxlength="100"
+          >
+
+        </div>
+
+
+        <!-- Notas -->
+
+        <div class="field">
+
+          <label for="inputNote">
+            Nota
+          </label>
+
+          <textarea
+            id="inputNote"
+            placeholder="Algo que quieras recordar de esta persona..."
+            maxlength="500"
+          ></textarea>
+
+        </div>
+
+
+        <!-- Favorito -->
+
+        <label
+          class="fav-toggle"
+          for="inputFav"
+        >
+
+          <input
+            type="checkbox"
+            id="inputFav"
+          >
+
+          <span>
+            Marcar como favorito
+          </span>
+
+        </label>
+
+
+        <!-- Botones -->
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="btn btn-ghost"
+            id="cancelBtn"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="saveBtn"
+          >
+            Guardar contacto
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       TOAST
+       ======================================================= -->
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
