@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const path = require("path");
 const cors = require("cors");
 const conectarDB = require("./config/db");
 const rutasContactos = require("./routes/contactosRoutes.js");
@@ -13,7 +14,8 @@ conectarDB();
 app.use(cors());
 app.use(express.json());
 
- app.get("/", function(req, res) {
+app.use(express.static(path.join(__dirname, "FRONTEND")));
+app.get("/", function(req, res) {
      res.send("API Directorio de Contactos funcionando correctamente");
  });
 app.use("/api", rutasContactos);
